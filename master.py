@@ -1,6 +1,7 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 import pandas as pd
+import math
 
 # 创建一个空的多重有向图
 G = nx.MultiDiGraph()
@@ -44,7 +45,7 @@ for col in df_selected.columns:
 
 
 # 获取节点的位置
-pos = nx.circular_layout(G)
+pos = nx.shell_layout(G)
 
 # 绘制节点
 nx.draw_networkx_nodes(G, pos)
@@ -55,7 +56,7 @@ nx.draw_networkx_labels(G, pos)
 # 绘制边
 for i, (u, v, d) in enumerate(G.edges(data=True)):
     if 'rad' not in d:
-        d['rad'] = 0.1 * i
+        d['rad'] = 0.05 * math.sin(i)
     nx.draw_networkx_edges(G, pos, edgelist=[(u, v)], connectionstyle=f'arc3, rad = {d["rad"]}')
 
 # 获取边的权重

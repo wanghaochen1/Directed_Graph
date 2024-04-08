@@ -19,6 +19,7 @@ for name in names:
 # 选择第二列到最后一列
 df_selected = df.iloc[:, 1:]
 for col in df_selected.columns:
+    #print(df_selected[col])
     # 获取值为1的节点和值为0的节点
     nodes_1 = df_selected[df_selected[col] == 1]
     nodes_0 = df_selected[df_selected[col] == 0]
@@ -30,10 +31,10 @@ for col in df_selected.columns:
         # 将这两个节点链接起来
         G.add_edge(node_1, node_0)
         #读取这一列最上方的日期，作为边的weight
-        date = pd.to_datetime(col)
-        month_day = f"{date.month}-{date.day}"
-        #print({month_day})
-        G[node_1][node_0][0]['weight'] = month_day
+        # date = pd.to_datetime(col)
+        # month_day = f"{date.month}-{date.day}"
+        # #print({month_day})
+        # G[node_1][node_0][0]['weight'] = month_day
 
 # # 添加边
 # G.add_edge("A", "B")
@@ -64,7 +65,7 @@ in_degrees = G.in_degree()
 out_degrees = G.out_degree()
 
 # 创建一个字典，键是节点，值是入度和出度的字符串
-labels = {node: f"\n\n in:{in_deg}\n\n out:{out_deg} \n\n" for node, in_deg in in_degrees for node, out_deg in out_degrees}
+labels = {node: f"\n\n in:{G.in_degree(node)}\n\n out:{G.out_degree(node)} \n\n" for node in G.nodes()}
 
 # 绘制节点的标签
 nx.draw_networkx_labels(G, pos, labels=labels)
